@@ -1,0 +1,172 @@
+<title>Vdbench output/localhost-0.stdout.html</title><pre>
+stdout/stderr for slave=localhost-0
+
+21:10:28.141 21:10:28.141 SlaveJvm execution parameter:  '-m localhost'
+21:10:28.142 21:10:28.141 SlaveJvm execution parameter:  '-n localhost-10-221114-21.10.27.908'
+21:10:28.142 21:10:28.141 SlaveJvm execution parameter:  '-l localhost-0'
+21:10:28.142 21:10:28.141 SlaveJvm execution parameter:  '-p 5570'
+21:10:28.142 21:10:28.141 SlaveJvm positional parameter: 'SlaveJvm'
+21:10:28.172 21:10:28.171 successfully connected to master localhost
+21:10:28.172 21:10:28.172 Connection to localhost using port 5570 successful
+21:10:28.326 21:10:28.326 ticks_per_second: 100
+21:10:28.330 21:10:28.330 execute(): ls -l /media/amanbucha/ext4_part
+21:10:28.346 21:10:28.346 Configuration interpretation took 0.02 seconds
+
+Link to Run Definitions:         <A HREF="#_1597655940">format_for_rd1 For loops: None</A>
+                                 <A HREF="#_2619171">rd1 For loops: None</A>
+
+21:10:28.426 21:10:28.425 Beginning of run setup
+21:10:28.426 21:10:28.425 **********************
+21:10:28.426 
+21:10:28.426 
+21:10:28.426 21:10:28.425 File '/var/log/messages' does not exist. Monitoring bypassed
+21:10:28.426 21:10:28.426 File '/var/log/messages.1' does not exist. Monitoring bypassed
+21:10:28.478 21:10:28.477 Deleting old file structure.
+21:10:28.478 21:10:28.478 Starting initializeFileAnchor for rd=format_for_rd1 For loops: None anchor=fsd1
+21:10:28.479 21:10:28.479 Completed the creation of the directory list for /media/amanbucha/ext4_part: 1 directories.
+21:10:28.480 21:10:28.480 Generated 2 file names; total anchor size: 2g (2,147,483,648)
+21:10:28.481 21:10:28.481 Created flipflop bitmap for fsd1. 1 bitmaps for a total of 2,048 bits.
+21:10:28.481 21:10:28.481 Creating bitmap for unique blocks for fsd=fsd1. 1 bitmaps for a total of 2,048 bits, identifying 921 unique blocks
+21:10:28.483 21:10:28.482 Writing control file for anchor=/media/amanbucha/ext4_part at start of run.
+21:10:28.493 21:10:28.492 Completed control file for anchor=/media/amanbucha/ext4_part at start of run.  dirs: 1/0 files: 2/0 sizes: 2g/0/0/0
+21:10:28.495 21:10:28.495 Completed initializeFileAnchor for fsd1: 0.02
+21:10:28.511 21:10:28.511 Started 8 threads for fwd=format,fsd=fsd1
+21:10:28.511 21:10:28.511 Started 8 FwgThreads for rd=format_for_rd1 For loops: None
+21:10:28.511 21:10:28.511 Waiting for task synchronization
+21:10:28.511 21:10:28.511 Requesting full garbage collection
+21:10:28.512 21:10:28.512 GcTracker: cum:   0 intv:  0 ms:       0 mss:  0.00% Heap_MB max:  1024 curr:   128 used:    33 free:    95 
+21:10:28.517 21:10:28.517 GcTracker: cum:   1 intv:  1 ms:       4 mss:  0.00% Heap_MB max:  1024 curr:   128 used:    23 free:   105 
+21:10:28.517 21:10:28.517 task_wait_start_complete() end
+
+<a name="_1597655940"></a><i><b>21:10:29.004 Starting RD=format_for_rd1</b></i>
+
+21:10:29.007 21:10:29.007 task_run_all(): 9 tasks
+21:10:29.523 21:10:29.523 Erasing Data Validation map: fsd1
+21:10:29.607 21:10:29.606 Erasing Data Validation map: fsd1
+21:10:29.611 21:10:29.611 Erasing Data Validation map: fsd1
+21:10:29.612 21:10:29.611 Erasing Data Validation map: fsd1
+21:10:29.612 21:10:29.611 Erasing Data Validation map: fsd1
+21:10:29.613 21:10:29.613 Erasing Data Validation map: fsd1
+21:10:29.620 21:10:29.620 Erasing Data Validation map: fsd1
+21:10:29.621 21:10:29.620 Erasing Data Validation map: fsd1
+21:10:29.621 21:10:29.621 Message to master: anchor=/media/amanbucha/ext4_part mkdir complete.
+21:11:01.072 21:11:01.071 Message to master: anchor=/media/amanbucha/ext4_part create complete.
+21:11:01.880 21:11:01.177 
+21:11:01.880 21:11:01.177 Miscellaneous statistics:
+21:11:01.880 21:11:01.177 FILE_CREATES        Files created:                                    2
+21:11:01.880 21:11:01.178 DIRECTORY_CREATES   Directories created:                              1
+21:11:01.880 21:11:01.178 FILE_DELETES        Files deleted:                                  450
+21:11:01.880 21:11:01.178 DIRECTORY_DELETES   Directories deleted:                             12
+21:11:01.880 21:11:01.179 WRITE_OPENS         Files opened for write activity:                  2
+21:11:01.880 21:11:01.179 DIR_EXISTS          Directory may not exist (yet):                    3
+21:11:01.880 21:11:01.179 FILE_CLOSES         Close requests:                                   2
+21:11:01.880 21:11:01.179 
+21:11:01.880 21:11:01.179 Dedup counters. Bytes written: 16g across: 7.195g (45.0%) on_sd: 0 (0.0%) dups: 8.805g (55.0%) resulting dedup=50.0% (2.00:1)
+21:11:01.881 21:11:01.181 Dedup options: 
+21:11:01.881 dedup_type:                            1
+21:11:01.881 dedup_ratio:                        2.00
+21:11:01.881 dedup_unit:                    1,048,576
+21:11:01.881 flipflop:                             no
+21:11:01.881 hot_dedup_sets:                        0
+21:11:01.881 hot_dedup_blocks:                      0
+21:11:01.881 dedup_sets_reqd:                      5%
+21:11:01.881 dedup_sets_used:                     102
+21:11:01.881 
+21:11:01.881 unique_blocks:                       921
+21:11:01.881 duplicate_blocks:                  1,127 (including 102 originals)
+21:11:01.881 dedup_pct:                         50.00
+21:11:01.882 dedup_adjusted:                    45.00
+21:11:01.882 total_size:                           2g
+21:11:01.882 unit_blocks:                       2,048
+21:11:01.882 
+21:11:01.882 Info only reliable if xfersize is multiple of dedupunit:
+21:11:01.882 uniques_written:                   7,368; expected 921; delta 6,447 
+21:11:01.882 duplicates_written:                9,016; expected 1,127; delta 7,889 
+21:11:01.882 Total writes:                     16,384; delta 14,336
+21:11:01.882 flipflops:                             0
+21:11:01.882 
+21:11:01.882 Dsim counts: Hash size:            1,023 (921 uniques + 102 sets)
+21:11:01.882 Dsim counts: Duplicates:           1,025
+21:11:01.882 Dsim counts: Ratio:                 2.00 (2.00196)
+21:11:01.882 
+21:11:01.882 21:11:01.181 Java Heap in MB. max: 1024.000; current:  128.000; used:   32.460; free:   95.540
+21:11:01.882 21:11:01.181 Maximum native memory allocation:   16,777,216; Current allocation:   16,777,216
+21:11:02.139 21:11:02.139 Writing control file for anchor=/media/amanbucha/ext4_part at end of run.
+21:11:02.977 21:11:02.977 Completed control file for anchor=/media/amanbucha/ext4_part at end of run.  dirs: 1/1 files: 2/2 sizes: 2g/2g/2/2g
+21:11:02.978 21:11:02.978 End of run
+21:11:02.978 21:11:02.978 **********
+21:11:02.978 
+21:11:02.978 
+21:11:04.958 21:11:04.957 Beginning of run setup
+21:11:04.958 21:11:04.958 **********************
+21:11:04.958 
+21:11:04.958 
+21:11:05.004 21:11:05.004 Starting initializeFileAnchor for rd=rd1 For loops: None anchor=fsd1
+21:11:05.004 21:11:05.004 Reading control file for anchor=/media/amanbucha/ext4_part
+21:11:05.005 21:11:05.005 Completed reading control file.
+21:11:05.005 21:11:05.005 Completed the creation of the directory list for /media/amanbucha/ext4_part: 1 directories.
+21:11:05.005 21:11:05.005 Generated 2 file names; total anchor size: 2g (2,147,483,648)
+21:11:05.005 21:11:05.005 Writing control file for anchor=/media/amanbucha/ext4_part at start of run.
+21:11:05.159 21:11:05.159 Completed control file for anchor=/media/amanbucha/ext4_part at start of run.  dirs: 1/1 files: 2/2 sizes: 2g/2g/0/0
+21:11:05.160 21:11:05.160 During anchor creation for anchor=/media/amanbucha/ext4_part there were 1 directories and 2 files
+21:11:05.161 21:11:05.160 Completed initializeFileAnchor for fsd1: 0.16
+21:11:05.171 21:11:05.171 Started 2 threads for fwd=fwd1,fsd=fsd1,operation=create
+21:11:05.172 21:11:05.171 Started 2 FwgThreads for rd=rd1 For loops: None
+21:11:05.172 21:11:05.171 Waiting for task synchronization
+21:11:05.172 21:11:05.172 Requesting full garbage collection
+21:11:05.173 21:11:05.173 GcTracker: cum:   1 intv:  0 ms:       0 mss:  0.00% Heap_MB max:  1024 curr:   128 used:    39 free:    89 
+21:11:05.189 21:11:05.188 GcTracker: cum:   2 intv:  1 ms:      13 mss:  0.00% Heap_MB max:  1024 curr:   128 used:    22 free:   106 
+21:11:05.189 21:11:05.189 task_wait_start_complete() end
+
+<a name="_2619171"></a><i><b>21:11:06.001 Starting RD=rd1; elapsed=30; fwdrate=max. For loops: None</b></i>
+
+21:11:06.003 21:11:06.003 task_run_all(): 3 tasks
+21:11:06.171 21:11:06.171 Anchor: /media/amanbucha/ext4_part
+21:11:06.172 21:11:06.171 Vdbench is trying to create a new file, but all files already exist, 
+21:11:06.172 21:11:06.171 and no threads are currently active deleting files
+21:11:06.172 21:11:06.171 FwgThread.canWeGetMoreFiles(): Shutting down threads for operation=create
+21:11:06.172 21:11:06.171 
+21:11:06.172 21:11:06.172 sendMessageToConsole: Anchor: /media/amanbucha/ext4_part
+21:11:06.172 21:11:06.172 sendMessageToConsole: Vdbench is trying to create a new file, but all files already exist, 
+21:11:06.172 21:11:06.172 sendMessageToConsole: and no threads are currently active deleting files
+21:11:06.172 21:11:06.172 sendMessageToConsole: FwgThread.canWeGetMoreFiles(): Shutting down threads for operation=create
+21:11:06.172 21:11:06.172 sendMessageToConsole: 
+21:11:06.274 21:11:06.273 Miscellaneous statistics: All counters are zero
+21:11:06.275 21:11:06.275 Dedup counters. Bytes written: 0 across: 0 (NaN%) on_sd: 0 (NaN%) dups: 0 (NaN%) resulting dedup=NaN% (NaN:1)
+21:11:06.285 21:11:06.284 Dedup options: 
+21:11:06.285 dedup_type:                            1
+21:11:06.285 dedup_ratio:                        2.00
+21:11:06.285 dedup_unit:                    1,048,576
+21:11:06.285 flipflop:                             no
+21:11:06.285 hot_dedup_sets:                        0
+21:11:06.285 hot_dedup_blocks:                      0
+21:11:06.285 dedup_sets_reqd:                      5%
+21:11:06.285 dedup_sets_used:                     102
+21:11:06.285 
+21:11:06.285 unique_blocks:                       921
+21:11:06.285 duplicate_blocks:                  1,127 (including 102 originals)
+21:11:06.285 dedup_pct:                         50.00
+21:11:06.285 dedup_adjusted:                    45.00
+21:11:06.285 total_size:                           2g
+21:11:06.285 unit_blocks:                       2,048
+21:11:06.285 
+21:11:06.285 Info only reliable if xfersize is multiple of dedupunit:
+21:11:06.285 uniques_written:                       0; expected 921; delta -921 
+21:11:06.285 duplicates_written:                    0; expected 1,127; delta -1,127 
+21:11:06.286 Total writes:                          0; delta -2,048
+21:11:06.286 flipflops:                             0
+21:11:06.286 
+21:11:06.286 Dsim counts: Hash size:            1,023 (921 uniques + 102 sets)
+21:11:06.286 Dsim counts: Duplicates:           1,025
+21:11:06.286 Dsim counts: Ratio:                 2.00 (2.00196)
+21:11:06.286 
+21:11:06.286 21:11:06.285 Java Heap in MB. max: 1024.000; current:  128.000; used:   23.761; free:  104.239
+21:11:06.286 21:11:06.286 Maximum native memory allocation:   20,971,520; Current allocation:    4,194,304
+21:11:07.019 21:11:07.018 Writing control file for anchor=/media/amanbucha/ext4_part at end of run.
+21:11:07.026 21:11:07.026 Completed control file for anchor=/media/amanbucha/ext4_part at end of run.  dirs: 1/1 files: 2/2 sizes: 2g/2g/0/0
+21:11:07.026 21:11:07.026 End of run
+21:11:07.026 21:11:07.026 **********
+21:11:07.026 
+21:11:07.026 
+21:11:07.387 21:11:07.387 Master is requesting slave shutdown
+21:11:07.388 21:11:07.387 Java Heap in MB. max: 1024.000; current:  128.000; used:   24.521; free:  103.479

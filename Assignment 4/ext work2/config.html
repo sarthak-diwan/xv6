@@ -1,0 +1,179 @@
+<title>Vdbench output/config.html</title><pre>
+Output from script /home/amanbucha/Downloads/Assignment-4/vdbench/linux/config.sh: 
+
+Monday 14 November 2022 09:10:28 PM IST
+>>>>>uname -a
+Linux amanbucha-IdeaPad-Gaming-3-15IMH05 5.15.0-52-generic #58~20.04.1-Ubuntu SMP Thu Oct 13 13:09:46 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
+Monday 14 November 2022 09:10:28 PM IST
+>>>>>ifconfig -a
+enp12s0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        ether 00:2b:67:dd:1a:50  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 14871  bytes 2098200 (2.0 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 14871  bytes 2098200 (2.0 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+wlp0s20f3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 10.150.38.121  netmask 255.255.240.0  broadcast 10.150.47.255
+        inet6 fe80::b4d4:620e:69e6:908b  prefixlen 64  scopeid 0x20<link>
+        ether 6c:6a:77:4d:76:c3  txqueuelen 1000  (Ethernet)
+        RX packets 867570  bytes 500326677 (500.3 MB)
+        RX errors 0  dropped 5857  overruns 0  frame 0
+        TX packets 119970  bytes 12334490 (12.3 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+Monday 14 November 2022 09:10:28 PM IST
+>>>>>id
+uid=0(root) gid=0(root) groups=0(root)
+Monday 14 November 2022 09:10:28 PM IST
+>>>>>mount
+sysfs on /sys type sysfs (rw,nosuid,nodev,noexec,relatime)
+proc on /proc type proc (rw,nosuid,nodev,noexec,relatime)
+udev on /dev type devtmpfs (rw,nosuid,noexec,relatime,size=3965276k,nr_inodes=991319,mode=755,inode64)
+devpts on /dev/pts type devpts (rw,nosuid,noexec,relatime,gid=5,mode=620,ptmxmode=000)
+tmpfs on /run type tmpfs (rw,nosuid,nodev,noexec,relatime,size=800312k,mode=755,inode64)
+/dev/sda4 on / type ext4 (rw,relatime,errors=remount-ro)
+securityfs on /sys/kernel/security type securityfs (rw,nosuid,nodev,noexec,relatime)
+tmpfs on /dev/shm type tmpfs (rw,nosuid,nodev,inode64)
+tmpfs on /run/lock type tmpfs (rw,nosuid,nodev,noexec,relatime,size=5120k,inode64)
+tmpfs on /sys/fs/cgroup type tmpfs (ro,nosuid,nodev,noexec,mode=755,inode64)
+cgroup2 on /sys/fs/cgroup/unified type cgroup2 (rw,nosuid,nodev,noexec,relatime,nsdelegate)
+cgroup on /sys/fs/cgroup/systemd type cgroup (rw,nosuid,nodev,noexec,relatime,xattr,name=systemd)
+pstore on /sys/fs/pstore type pstore (rw,nosuid,nodev,noexec,relatime)
+efivarfs on /sys/firmware/efi/efivars type efivarfs (rw,nosuid,nodev,noexec,relatime)
+bpf on /sys/fs/bpf type bpf (rw,nosuid,nodev,noexec,relatime,mode=700)
+cgroup on /sys/fs/cgroup/memory type cgroup (rw,nosuid,nodev,noexec,relatime,memory)
+cgroup on /sys/fs/cgroup/net_cls,net_prio type cgroup (rw,nosuid,nodev,noexec,relatime,net_cls,net_prio)
+cgroup on /sys/fs/cgroup/perf_event type cgroup (rw,nosuid,nodev,noexec,relatime,perf_event)
+cgroup on /sys/fs/cgroup/pids type cgroup (rw,nosuid,nodev,noexec,relatime,pids)
+cgroup on /sys/fs/cgroup/cpuset type cgroup (rw,nosuid,nodev,noexec,relatime,cpuset)
+cgroup on /sys/fs/cgroup/cpu,cpuacct type cgroup (rw,nosuid,nodev,noexec,relatime,cpu,cpuacct)
+cgroup on /sys/fs/cgroup/hugetlb type cgroup (rw,nosuid,nodev,noexec,relatime,hugetlb)
+cgroup on /sys/fs/cgroup/freezer type cgroup (rw,nosuid,nodev,noexec,relatime,freezer)
+cgroup on /sys/fs/cgroup/misc type cgroup (rw,nosuid,nodev,noexec,relatime,misc)
+cgroup on /sys/fs/cgroup/devices type cgroup (rw,nosuid,nodev,noexec,relatime,devices)
+cgroup on /sys/fs/cgroup/blkio type cgroup (rw,nosuid,nodev,noexec,relatime,blkio)
+cgroup on /sys/fs/cgroup/rdma type cgroup (rw,nosuid,nodev,noexec,relatime,rdma)
+systemd-1 on /proc/sys/fs/binfmt_misc type autofs (rw,relatime,fd=28,pgrp=1,timeout=0,minproto=5,maxproto=5,direct,pipe_ino=18065)
+debugfs on /sys/kernel/debug type debugfs (rw,nosuid,nodev,noexec,relatime)
+mqueue on /dev/mqueue type mqueue (rw,nosuid,nodev,noexec,relatime)
+hugetlbfs on /dev/hugepages type hugetlbfs (rw,relatime,pagesize=2M)
+tracefs on /sys/kernel/tracing type tracefs (rw,nosuid,nodev,noexec,relatime)
+fusectl on /sys/fs/fuse/connections type fusectl (rw,nosuid,nodev,noexec,relatime)
+configfs on /sys/kernel/config type configfs (rw,nosuid,nodev,noexec,relatime)
+/var/lib/snapd/snaps/bare_5.snap on /snap/bare/5 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/code_111.snap on /snap/code/111 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/core_13741.snap on /snap/core/13741 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/core_13886.snap on /snap/core/13886 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/core22_275.snap on /snap/core22/275 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/core18_2566.snap on /snap/core18/2566 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/core22_310.snap on /snap/core22/310 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/core20_1634.snap on /snap/core20/1634 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/gnome-3-28-1804_161.snap on /snap/gnome-3-28-1804/161 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/gnome-3-34-1804_77.snap on /snap/gnome-3-34-1804/77 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/gnome-3-34-1804_72.snap on /snap/gnome-3-34-1804/72 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/gnome-3-38-2004_115.snap on /snap/gnome-3-38-2004/115 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/mysql-shell_29.snap on /snap/mysql-shell/29 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/gtk-common-themes_1535.snap on /snap/gtk-common-themes/1535 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/snap-store_558.snap on /snap/snap-store/558 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/gtk-common-themes_1534.snap on /snap/gtk-common-themes/1534 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/snap-store_599.snap on /snap/snap-store/599 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/snapd_17029.snap on /snap/snapd/17029 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/gnome-3-38-2004_119.snap on /snap/gnome-3-38-2004/119 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/snapd_17336.snap on /snap/snapd/17336 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/whatsapp-for-linux_47.snap on /snap/whatsapp-for-linux/47 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/telegram-desktop_4256.snap on /snap/telegram-desktop/4256 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/whatsapp-for-linux_48.snap on /snap/whatsapp-for-linux/48 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+binfmt_misc on /proc/sys/fs/binfmt_misc type binfmt_misc (rw,nosuid,nodev,noexec,relatime)
+/dev/nvme0n1p1 on /boot/efi type vfat (rw,relatime,fmask=0077,dmask=0077,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro)
+tmpfs on /run/user/1000 type tmpfs (rw,nosuid,nodev,relatime,size=800308k,mode=700,uid=1000,gid=1000,inode64)
+gvfsd-fuse on /run/user/1000/gvfs type fuse.gvfsd-fuse (rw,nosuid,nodev,relatime,user_id=1000,group_id=1000)
+/dev/fuse on /run/user/1000/doc type fuse (rw,nosuid,nodev,relatime,user_id=1000,group_id=1000)
+tmpfs on /run/snapd/ns type tmpfs (rw,nosuid,nodev,noexec,relatime,size=800312k,mode=755,inode64)
+nsfs on /run/snapd/ns/snap-store.mnt type nsfs (rw)
+/dev/sda6 on /media/amanbucha/ext4_part type ext4 (rw,nosuid,nodev,relatime,uhelper=udisks2)
+/var/lib/snapd/snaps/core18_2620.snap on /snap/core18/2620 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/core20_1695.snap on /snap/core20/1695 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+/var/lib/snapd/snaps/telegram-desktop_4312.snap on /snap/telegram-desktop/4312 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+nsfs on /run/snapd/ns/telegram-desktop.mnt type nsfs (rw)
+/var/lib/snapd/snaps/code_113.snap on /snap/code/113 type squashfs (ro,nodev,relatime,errors=continue,x-gdu.hide)
+zfs_pool on /zfs_pool type zfs (rw,xattr,noacl)
+Monday 14 November 2022 09:10:28 PM IST
+>>>>>memory
+MemTotal:        8003108 kB
+MemFree:         1134444 kB
+MemAvailable:    3137828 kB
+Buffers:          135104 kB
+Cached:          2911852 kB
+SwapCached:           24 kB
+Active:          1799572 kB
+Inactive:        3263248 kB
+Active(anon):     119552 kB
+Inactive(anon):  2786376 kB
+Active(file):    1680020 kB
+Inactive(file):   476872 kB
+Unevictable:      164336 kB
+Mlocked:              64 kB
+SwapTotal:       2097148 kB
+SwapFree:        2096112 kB
+Dirty:               404 kB
+Writeback:             0 kB
+AnonPages:       2180272 kB
+Mapped:           583248 kB
+Shmem:            891584 kB
+KReclaimable:     138340 kB
+Slab:             285712 kB
+SReclaimable:     138340 kB
+SUnreclaim:       147372 kB
+KernelStack:       17812 kB
+PageTables:        31524 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     6098700 kB
+Committed_AS:    8141540 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:      185516 kB
+VmallocChunk:          0 kB
+Percpu:             8928 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+Hugetlb:               0 kB
+DirectMap4k:      438456 kB
+DirectMap2M:     7815168 kB
+DirectMap1G:     1048576 kB
+              total        used        free      shared  buff/cache   available
+Mem:        8003108     3683368     1134444      891584     3185296     3137828
+Low:        8003108     6868664     1134444
+High:             0           0           0
+Swap:       2097148        1036     2096112
+Monday 14 November 2022 09:10:28 PM IST
+>>>>>ps -ef | grep -i vdb
+amanbuc+   19220    1141  0 20:55 ?        00:00:03 evince /home/amanbucha/Downloads/Assignment-4/vdbench.pdf
+amanbuc+   19374    1141  0 20:56 ?        00:00:04 evince /home/amanbucha/Downloads/vdbench-1901683.pdf
+root       29389    6506  0 21:10 pts/1    00:00:00 sudo ./vdbench -f workload2 anchor=/media/amanbucha/ext4_part
+root       29390   29389  0 21:10 pts/1    00:00:00 /bin/bash ./vdbench -f workload2 anchor=/media/amanbucha/ext4_part
+root       29392   29390  0 21:10 pts/1    00:00:00 java -client -Xmx512m -Xms64m -cp ./:./classes:./vdbench.jar Vdb.Vdbmain -f workload2 anchor=/media/amanbucha/ext4_part
+root       29417   29392  0 21:10 pts/1    00:00:00 /bin/bash /home/amanbucha/Downloads/Assignment-4/vdbench/vdbench SlaveJvm -m localhost -n localhost-10-221114-21.10.27.908 -l localhost-0 -p 5570
+root       29421   29417  0 21:10 pts/1    00:00:00 java -client -Xmx1024m -Xms128m -cp /home/amanbucha/Downloads/Assignment-4/vdbench/:/home/amanbucha/Downloads/Assignment-4/vdbench/classes:/home/amanbucha/Downloads/Assignment-4/vdbench/vdbench.jar Vdb.SlaveJvm SlaveJvm -m localhost -n localhost-10-221114-21.10.27.908 -l localhost-0 -p 5570
+root       29452   29392  0 21:10 pts/1    00:00:00 /bin/bash /home/amanbucha/Downloads/Assignment-4/vdbench/linux/config.sh -o /home/amanbucha/Downloads/Assignment-4/vdbench/output localhost
+root       29468   29452  0 21:10 pts/1    00:00:00 grep -i vdb
+
