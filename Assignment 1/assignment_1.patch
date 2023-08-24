@@ -1,0 +1,513 @@
+diff --git a/Drawtest.c b/Drawtest.c
+new file mode 100644
+index 0000000..c79c1d9
+--- /dev/null
++++ b/Drawtest.c
+@@ -0,0 +1,18 @@
++#include "types.h"
++#include "stat.h"
++#include "user.h"
++
++int main(int argc, char* argv[]){
++    int size = atoi(argv[1]);
++    void* buff = malloc(size*sizeof(char));
++    int x = draw(buff, size);
++    char* b = (char*)buff;
++    printf(1, "%d\n", x);
++    if(x!=-1){
++        for(int i=0;i<x;i++){
++            printf(1, "%c", b[i]);
++        }
++        printf(1, "\n");
++    }
++    exit();
++}
+\ No newline at end of file
+diff --git a/Makefile b/Makefile
+index 09d790c..2a71728 100644
+--- a/Makefile
++++ b/Makefile
+@@ -181,6 +181,8 @@ UPROGS=\
+ 	_usertests\
+ 	_wc\
+ 	_zombie\
++	_Drawtest\
++	_thread\
+ 
+ fs.img: mkfs README $(UPROGS)
+ 	./mkfs fs.img README $(UPROGS)
+@@ -250,7 +252,7 @@ qemu-nox-gdb: fs.img xv6.img .gdbinit
+ EXTRA=\
+ 	mkfs.c ulib.c user.h cat.c echo.c forktest.c grep.c kill.c\
+ 	ln.c ls.c mkdir.c rm.c stressfs.c usertests.c wc.c zombie.c\
+-	printf.c umalloc.c\
++	printf.c umalloc.c Drawtest.c thread.c\
+ 	README dot-bochsrc *.pl toc.* runoff runoff1 runoff.list\
+ 	.gdbinit.tmpl gdbutil\
+ 
+diff --git a/defs.h b/defs.h
+index 82fb982..620ea23 100644
+--- a/defs.h
++++ b/defs.h
+@@ -120,6 +120,9 @@ void            userinit(void);
+ int             wait(void);
+ void            wakeup(void*);
+ void            yield(void);
++int             thread_create(void(*)(void*), void*, void*);
++int             thread_join(void);
++void            thread_exit(void);
+ 
+ // swtch.S
+ void            swtch(struct context**, struct context*);
+diff --git a/proc.c b/proc.c
+index 806b1b1..d3ba1bd 100644
+--- a/proc.c
++++ b/proc.c
+@@ -311,6 +311,170 @@ wait(void)
+   }
+ }
+ 
++int
++thread_create(void(*fcn)(void*), void* arg, void* stack)
++{
++  // how to pass argument in
++  int i, pid;
++  struct proc *np;
++  struct proc *curproc = myproc();
++
++  // Allocate process.
++  if((np = allocproc()) == 0){
++    return -1;
++  }
++
++  // Copy process state from proc.
++  /*
++  if((np->pgdir = copyuvm(curproc->pgdir, curproc->sz)) == 0){
++    kfree(np->kstack);
++    np->kstack = 0;
++    np->state = UNUSED;
++    return -1;
++  }
++  */
++
++  // this portion is particularly different
++  // alloting the page directory
++  np->pgdir = curproc->pgdir;
++  // alloting size of current process address space
++  np->sz = curproc->sz;
++  np->parent = curproc;
++  *np->tf = *curproc->tf;
++
++  // setting the instruction pointer to the addresss the passed function fcn
++  np->tf->eax = 0;
++  np->tf->eip = (uint)fcn;
++  // pointing the stack pointer to the end of the page alloted to it
++  np->tf->esp = (uint)stack+4096;
++
++  // similar to the fork function the child thread process also returns 0 to the parent thread/ process
++  np->tf->eax = 0;
++  // defining pop operation by traversing the memory
++  np->tf->esp -= 4;
++  *(uint*)(np->tf->esp) = (uint)(arg);
++
++  while(np->sz != curproc->sz)
++  {
++      np->tf->esp -= 4;
++    *(uint*)(np->tf->esp) = (uint)(arg);
++      np->sz = curproc->sz;
++    np->parent = curproc;
++    *np->tf = *curproc->tf;
++    if(!wait()) break;
++  }
++
++  // giuving a fake return address tp the function
++  np->tf->esp -= 4;
++  *(uint*)(np->tf->esp) = (uint)0xFFFFFFF;
++
++
++  for(i = 0; i < NOFILE; i++)
++    if(curproc->ofile[i])
++      np->ofile[i] = filedup(curproc->ofile[i]);
++  np->cwd = idup(curproc->cwd);
++
++  safestrcpy(np->name, curproc->name, sizeof(curproc->name));
++
++  pid = np->pid;
++
++  acquire(&ptable.lock);
++
++  np->state = RUNNABLE;
++
++  release(&ptable.lock);
++
++  return pid;
++
++}
++
++int
++thread_join(void)
++{
++  struct proc *p;
++  int havechild, pid;
++  struct proc *curproc = myproc();
++
++  acquire(&ptable.lock);
++  while(1){
++    // Scan through table looking for exited children.
++    havechild = 0;
++    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
++      if(p->parent != curproc || p->pgdir != curproc->pgdir) // waiting for only threads and not forked processes to end
++      {
++        continue;
++      }
++      havechild = 1;
++      if(p->state == ZOMBIE){
++        // Found one.
++        pid = p->pid;
++        kfree(p->kstack);
++        p->kstack = 0;
++        //freevm(p->pgdir);
++        p->parent = 0;
++        p->pid = 0;
++        p->state = UNUSED;
++        p->name[0] = 0;
++        p->killed = 0;
++        release(&ptable.lock);
++        return pid;
++      }
++    }
++
++    // No point waiting if we don't have any children.
++    if(!havechild || curproc->killed){
++      release(&ptable.lock);
++      return -1;
++    }
++
++    // Wait for children toexit.  (See wakeup1 call in proc_exit.)
++    sleep(curproc, &ptable.lock);  //DOC: wait-sleep
++  }
++}
++
++
++void
++thread_exit(void)
++{
++  struct proc *curproc = myproc();
++  struct proc *p;
++  int fd;
++
++  if(curproc == initproc)
++    panic("init exiting");
++
++  // Close all open files.
++  for(fd = 0; fd < NOFILE; fd++){
++    if(curproc->ofile[fd]){
++      fileclose(curproc->ofile[fd]);
++      curproc->ofile[fd] = 0;
++    }
++  }
++
++  begin_op();
++  iput(curproc->cwd);
++  end_op();
++  curproc->cwd = 0;
++
++  acquire(&ptable.lock);
++
++  // Parent might be sleeping in wait().
++  wakeup1(curproc->parent);
++
++  // Pass abandoned children to init.
++  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
++    if(p->parent == curproc){
++      p->parent = initproc;
++      if(p->state == ZOMBIE)
++        wakeup1(initproc);
++    }
++  }
++
++  // Jump into the scheduler, never to return.
++  curproc->state = ZOMBIE;
++  sched();
++  panic("zombie exit");
++}
+ //PAGEBREAK: 42
+ // Per-CPU process scheduler.
+ // Each CPU calls scheduler() after setting itself up.
+diff --git a/syscall.c b/syscall.c
+index ee85261..1c61a26 100644
+--- a/syscall.c
++++ b/syscall.c
+@@ -103,6 +103,10 @@ extern int sys_unlink(void);
+ extern int sys_wait(void);
+ extern int sys_write(void);
+ extern int sys_uptime(void);
++extern int sys_draw(void);
++extern int sys_thread_create(void);
++extern int sys_thread_join(void);
++extern int sys_thread_exit(void);
+ 
+ static int (*syscalls[])(void) = {
+ [SYS_fork]    sys_fork,
+@@ -126,6 +130,10 @@ static int (*syscalls[])(void) = {
+ [SYS_link]    sys_link,
+ [SYS_mkdir]   sys_mkdir,
+ [SYS_close]   sys_close,
++[SYS_draw]   sys_draw,
++[SYS_thread_create] sys_thread_create,
++[SYS_thread_join]   sys_thread_join,
++[SYS_thread_exit]   sys_thread_exit,
+ };
+ 
+ void
+diff --git a/syscall.h b/syscall.h
+index bc5f356..973bc5a 100644
+--- a/syscall.h
++++ b/syscall.h
+@@ -20,3 +20,7 @@
+ #define SYS_link   19
+ #define SYS_mkdir  20
+ #define SYS_close  21
++#define SYS_draw 22
++#define SYS_thread_create 23
++#define SYS_thread_join 24
++#define SYS_thread_exit 25
+diff --git a/sysproc.c b/sysproc.c
+index 0686d29..c14d03a 100644
+--- a/sysproc.c
++++ b/sysproc.c
+@@ -89,3 +89,42 @@ sys_uptime(void)
+   release(&tickslock);
+   return xticks;
+ }
++
++int
++sys_draw(void* buff,int size){
++  char* wolf = "     .--..--..--..--..--..--.\n.\' \\  (`._   (_)     _   \\\n.\'    |  \'._)         (_)  |\n\\ _.\')\\      .----..---.   /\n|(_.\'  |    /    .-\\-.  \\  |\n\\     0|    |   ( O| O) | o|\n|  _  |  .--.____.\'._.-.  |\n\\ (_) | o         -` .-`  |\n|    \\   |`-._ _ _ _ _\\ /\n\\    |   |  `. |_||_|   |\n| o  |    \\_      \\     |     -.   .-.\n|.-.  \\     `--..-'   O |     `.`-\' .\'\n_.\'  .\' |     `-.-\'      /-.__   \' .-\'\n.\' `-.` \'.|=\'=.=\'=.=\'=.=\'=|._/_ `-\'.\'\n`-._  `.  |________/\\_____|    `-.\'\n.\'   ).| \'=\' \'=\'\\/ \'=\' |\n`._.`  \'---------------\'\n//___\\   //___\\\n||       ||\nLGB      ||_.-.   ||_.-.\n(_.--__) (_.--__)\n";
++  char* buf = (char*)buff;
++  argstr(0,&buf);
++  argint(1,&size);
++  
++  int n = strlen(wolf);
++  if(n > size)
++  return -1;
++  for(int i=0;i<n;++i)
++  buf[i] = wolf[i];
++  return n;
++}
++
++int
++sys_thread_create(void){
++  int fcn;
++  char* arg;
++  char* stack;
++  if(argint(0, &fcn) < 0) return -1;
++  if(argint(1, (int*)&arg) < 0) return -1; //changed
++  if(argint(2, (int*)&stack)<0) return -1; //changed
++  
++  return thread_create((void(*)(void*))fcn, arg, stack);
++}
++
++
++int sys_thread_join(void)
++{
++  int ret_val = thread_join();
++  return ret_val;
++}
++
++int sys_thread_exit(void){
++  thread_exit();
++  return 0;
++}
+diff --git a/thread.c b/thread.c
+new file mode 100644
+index 0000000..33aabcf
+--- /dev/null
++++ b/thread.c
+@@ -0,0 +1,121 @@
++#include "types.h"
++#include "stat.h"
++#include "user.h"
++#include "x86.h"
++
++// tried to include all the different structs for mutexes and spinlocks into 
++// different files but importing strucure of c created issue in compiling will need to 
++// study the importing structure of c in detail
++struct balance {
++    char name[32];
++    int amount;
++};
++
++volatile int total_balance = 0;
++struct thread_spinlock lock;
++// copied spinlock
++struct thread_spinlock {
++  uint locked;       // Is the lock held?
++};
++void thread_spin_init(struct thread_spinlock *lk) {
++  lk->locked = 0;
++}
++
++void thread_spin_lock(struct thread_spinlock* lk) {
++
++    // The xchg is atomic.
++  while(xchg(&lk->locked, 1) != 0)
++    ;
++  __sync_synchronize();
++}
++
++
++void thread_spin_unlock(struct thread_spinlock* lk) {
++
++  __sync_synchronize();
++
++  asm volatile("movl $0, %0" : "+m" (lk->locked) : );
++}
++
++struct thread_mutex mutex_lock;
++
++struct thread_mutex{
++  uint locked;
++};
++
++void thread_mutex_init(struct thread_mutex* lk) {
++   lk->locked = 0;
++}
++
++void thread_mutex_lock(struct thread_mutex* lk) {
++  while(xchg(&lk->locked, 1) != 0)
++    sleep(1);
++  // sleep ensures that the current process does not hog the processor it is working on and allows
++  // context switching on the processor preventing the deadlock of a processor 
++  __sync_synchronize();
++}
++
++void thread_mutex_unlock(struct thread_mutex* lk) {
++  __sync_synchronize();
++
++  asm volatile("movl $0, %0" : "+m" (lk->locked) : );
++}
++
++volatile unsigned int delay (unsigned int d) {
++   unsigned int i;
++   for (i = 0; i < d; i++) {
++       __asm volatile( "nop" ::: );
++   }
++
++   return i;
++}
++
++void do_work(void *arg){
++    int i;
++    int old;
++
++    struct balance *b = (struct balance*) arg;
++    printf(1, "Starting do_work: s:%s\n", b->name);
++
++    for (i = 0; i < b->amount; i++) {
++        //  thread_spin_lock(&lock);
++         thread_mutex_lock(&mutex_lock);
++         old = total_balance;
++         delay(100000);
++         total_balance = old + 1;
++        //  thread_spin_unlock(&lock);
++         thread_mutex_unlock(&mutex_lock);
++    }
++
++    printf(1, "Done s:%s\n", b->name);
++
++    thread_exit();
++    return;
++}
++
++int main(int argc, char *argv[]) {
++
++  struct balance b1 = {"b1", 3200};
++  struct balance b2 = {"b2", 2800};
++
++  void *s1, *s2;
++  int t1, t2, r1, r2;
++
++  s1 = malloc(4096);
++  s2 = malloc(4096);
++
++  // Initialize thread_spin_lock
++  // thread_spin_init(&lock);
++  thread_mutex_init(&mutex_lock);
++
++  t1 = thread_create(do_work, (void*)&b1, s1);
++  t2 = thread_create(do_work, (void*)&b2, s2);
++
++  r1 = thread_join();
++  r2 = thread_join();
++
++  printf(1, "Threads finished: (%d):%d, (%d):%d, shared balance:%d\n",
++      t1, r1, t2, r2, total_balance);
++
++  exit();
++}
+diff --git a/thread_spinlock.c b/thread_spinlock.c
+new file mode 100644
+index 0000000..2e223d7
+--- /dev/null
++++ b/thread_spinlock.c
+@@ -0,0 +1,10 @@
++#include "thread_spinlock.h"
++
++// copied using acquire function from spinlock.c
++struct thread_spinlock {
++  uint locked;       // Is the lock held?
++
++  // For debugging
++  char *name;        // Name of lock.
++};
++
+diff --git a/thread_spinlock.h b/thread_spinlock.h
+new file mode 100644
+index 0000000..7235b69
+--- /dev/null
++++ b/thread_spinlock.h
+@@ -0,0 +1,10 @@
++
++struct thread_spinlock {
++  uint locked;       // Is the lock held?
++
++  // For debugging
++  char *name;        // Name of lock.
++};
++void thread_spin_init(struct thread_spinlock *lk, char *name);
++void thread_spin_lock(struct thread_spinlock* lk);
++void thread_spin_unlock(struct thread_spinlock* lk);
+\ No newline at end of file
+diff --git a/user.h b/user.h
+index 4f99c52..b51faa7 100644
+--- a/user.h
++++ b/user.h
+@@ -23,6 +23,9 @@ int getpid(void);
+ char* sbrk(int);
+ int sleep(int);
+ int uptime(void);
++int thread_create(void(*)(void*), void*, void*);
++int thread_join(void);
++void thread_exit(void);
+ 
+ // ulib.c
+ int stat(const char*, struct stat*);
+@@ -37,3 +40,4 @@ void* memset(void*, int, uint);
+ void* malloc(uint);
+ void free(void*);
+ int atoi(const char*);
++int draw(void*, int);
+diff --git a/usys.S b/usys.S
+index 8bfd8a1..97a5a57 100644
+--- a/usys.S
++++ b/usys.S
+@@ -29,3 +29,7 @@ SYSCALL(getpid)
+ SYSCALL(sbrk)
+ SYSCALL(sleep)
+ SYSCALL(uptime)
++SYSCALL(draw)
++SYSCALL(thread_create)
++SYSCALL(thread_join)
++SYSCALL(thread_exit)
+\ No newline at end of file
